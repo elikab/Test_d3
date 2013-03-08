@@ -32,6 +32,8 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+svg.append("svg:circle");
+
 d3.json("/d3.json", function(error, flare) {
   root = flare;
   root.x0 = height / 2;
@@ -137,6 +139,16 @@ function update(source) {
     d.x0 = d.x;
     d.y0 = d.y;
   });
+
+$('svg circle').tipsy({ 
+    gravity: 'w', 
+        html: true, 
+        title: function() {
+          return 'Hi'; 
+        }
+});
+
+
 }
 
 // Toggle children on click.
@@ -152,6 +164,8 @@ function click(d) {
 }
 
 
+
+
 /*
 var data = 
 
@@ -160,8 +174,12 @@ var data =
         html: true, 
         title: function() {
           var d = this.__data__, n = d.name;
-          return 'Hi there! My name is <span style="name:' + n + '">' + n + '</span>'; 
+          return 'Hi'; 
         }
       });
+
+var vis = d3.select('#chart')
+	.append("svg: circle");
+
 */
 </script>
