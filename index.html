@@ -141,10 +141,11 @@ function update(source) {
   });
 
 $('svg circle').tipsy({ 
-    gravity: 'w', 
+	gravity: 'w', 
         html: true, 
         title: function() {
-          return 'Hi'; 
+            var d = this.__data__, n = d.name;
+          return n; 
         }
 });
 
@@ -167,6 +168,13 @@ function click(d) {
 
 
 /*
+
+        title: function() {
+            var d = this.__data__, n = d.name;
+          return n; 
+        }
+
+
 var data = 
 
       $('svg circle').tipsy({ 
@@ -174,7 +182,7 @@ var data =
         html: true, 
         title: function() {
           var d = this.__data__, n = d.name;
-          return 'Hi'; 
+          return 'Hi' + n; 
         }
       });
 
