@@ -2,13 +2,13 @@
 <head>
 <meta charset="utf-8">
 <script src="/d3/d3.v3.js"></script>
-<script type="text/javascript" src="/jquery.tipsy.js"></script>
+    
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script> 
+    <script type="text/javascript" src="jquery.tipsy.js"></script>
 <link href="practice.css" type="text/css" rel="stylesheet" />
 </head>
 
 <body>
-<script src="/d3/d3.v3.js"></script>
-<script type="text/javascript" src="/jquery.tipsy.js"></script>
 
 <script>
 
@@ -151,4 +151,17 @@ function click(d) {
   update(d);
 }
 
+
+/*
+var data = 
+
+      $('svg circle').tipsy({ 
+        gravity: 'w', 
+        html: true, 
+        title: function() {
+          var d = this.__data__, n = d.name;
+          return 'Hi there! My name is <span style="name:' + n + '">' + n + '</span>'; 
+        }
+      });
+*/
 </script>
