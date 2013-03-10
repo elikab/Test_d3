@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
 <script src="/d3/d3.v3.js"></script>
     
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script> 
@@ -9,8 +13,14 @@
 </head>
 
 <body>
-
-<script>
+    <script src="js/bootstrap.min.js"></script>
+<div class="navbar navbar-fixed-top">
+  <a class="brand" href="#">The Artist Network</a>
+  <form class="navbar-search pull-right">
+  <input type="text" class="search-query" placeholder="Search">
+</form>
+</div>
+         <script>
 
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
     width = 960 - margin.right - margin.left,
@@ -20,24 +30,25 @@ var i = 0,
     duration = 750,
     root;
 
-var tree = d3.layout.tree()
-    .size([height, width]);
+var diameter = 1080;
 
-var diagonal = d3.svg.diagonal()
-    .projection(function(d) { return [d.y, d.x]; });
+var tree = d3.layout.tree()
+    .size([360, diameter / 2 - 120])
+    .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
+
+var diagonal = d3.svg.diagonal.radial()
+    .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
 
 var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.right + margin.left)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("width", diameter + 120)
+    .attr("height", diameter + 120)
   .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-svg.append("svg:circle");
+    .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
 d3.json("/d3.json", function(error, flare) {
   root = flare;
   root.x0 = height / 2;
-  root.y0 = 0;
+  root.y0 = width / 2;
 
   function collapse(d) {
     if (d.children) {
@@ -70,31 +81,35 @@ function update(source) {
   // Enter any new nodes at the parent's previous position.
   var nodeEnter = node.enter().append("g")
       .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
       .on("click", click);
+
+      
 
   nodeEnter.append("circle")
       .attr("r", 1e-6)
       .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
   nodeEnter.append("text")
-      .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
-      .attr("dy", ".35em")
-      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
-      .text(function(d) { return d.name; })
-      .style("fill-opacity", 1e-6);
+      .attr("dy", ".31em")
+      .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+      .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
+      .text(function(d) { return d.name; });
 
   // Transition nodes to their new position.
   var nodeUpdate = node.transition()
       .duration(duration)
-      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
 
   nodeUpdate.select("circle")
       .attr("r", 4.5)
       .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
   nodeUpdate.select("text")
+	  .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+      .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
       .style("fill-opacity", 1);
+
 
   // Transition exiting nodes to the parent's new position.
   var nodeExit = node.exit().transition()
@@ -143,7 +158,7 @@ function update(source) {
 $('svg circle').tipsy({ 
 	gravity: 'w', 
         html: true, 
-        title: function() {
+        title: function(d) {
             var d = this.__data__, n = d.name;
           return n; 
         }
@@ -191,3 +206,5 @@ var vis = d3.select('#chart')
 
 */
 </script>
+
+
