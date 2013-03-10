@@ -9,7 +9,9 @@
 }
 
 .node text {
-  font: 10px sans-serif;
+  font: 10px;
+  font-weight: bold;
+  font-family: "Trebuchet MS", Helvetica, sans-serif
 }
 
 body {
