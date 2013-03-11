@@ -74,8 +74,8 @@ d3.json("/d3.json", function(error, flare) {
 });
 
 d3.select(self.frameElement).style("height", "800px");
-
 function update(source) {
+ 
 
   // Compute the new tree layout.
   var nodes = tree.nodes(root).reverse(),
@@ -102,10 +102,13 @@ function update(source) {
       .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
   nodeEnter.append("text")
+     
       .attr("dy", ".31em")
       .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
       .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
-      .text(function(d) { return d.name; });
+      .text(function(d) { return d.name; }
+);
+
 
   // Transition nodes to their new position.
   var nodeUpdate = node.transition()
@@ -141,14 +144,18 @@ function update(source) {
   // Enter any new links at the parent's previous position.
   link.enter().insert("path", "g")
       .attr("class", "link")
-      .attr("d", function(d) {
+/*      if (d.stroke != undefined) {
+        .style("stroke", d.stroke;
+      }else{ 
+        link.style("stroke", "#7D9EC0"); */
+	.attr("d", function(d) {
         var o = {x: source.x0, y: source.y0};
         return diagonal({source: o, target: o});
       });
-
+ 
   // Transition links to their new position.
   link.transition()
-      .duration(duration)
+	.duration(duration)
       .attr("d", diagonal);
 
   // Transition exiting nodes to the parent's new position.
@@ -178,7 +185,7 @@ $('text').tipsy({
             } if (d.musicStyles != undefined) {
 	       n = n + "<br><strong>Style:</strong> " + d.musicStyles;  
             }else {
-		n = d.name;
+            return "click to expand/retract";
             }
           return n;
         }
