@@ -166,13 +166,13 @@ function update(source) {
     d.y0 = d.y;
   });
 
-$('svg circle').tipsy({ 
+$('text').tipsy({ 
 	gravity: 'w', 
         html: true, 
         title: function(d) {
             var d = this.__data__, n = "<h4>" + d.name + "</h4>";
             if (d.moods != undefined) {
-               n = n + "<br><strong>Mood:</strong> " + d.moods;
+               n = n + "<strong>Mood:</strong> " + d.moods;
             } if (d.themes != undefined) {
                n = n + "<br><strong>Themes:</strong> " + d.themes;
             } if (d.musicStyles != undefined) {
